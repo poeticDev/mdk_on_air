@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mdk_on_air/layout/default_layout.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Paperlogy',
       ),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(),
+      home: DefaultLayout(),
     );
   }
 }
