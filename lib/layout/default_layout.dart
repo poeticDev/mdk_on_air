@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mdk_on_air/const/color.dart';
 import 'package:mdk_on_air/const/studio_states.dart';
 import 'package:mdk_on_air/model/studio_state_model.dart';
+import 'package:mdk_on_air/util/state_manager.dart';
 
-class DefaultLayout extends StatelessWidget {
+class DefaultLayout extends ConsumerWidget {
   const DefaultLayout({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    StudioState currentState = STATE_CHECK;
+  Widget build(BuildContext context, WidgetRef ref) {
+    StudioState currentState = ref.watch(studioStateProvider);
 
     return Scaffold(
       backgroundColor: currentState.bgColor,
