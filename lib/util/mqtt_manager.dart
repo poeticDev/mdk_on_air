@@ -202,3 +202,5 @@ class MqttManager {
     print('🔄 Ping 요청 전송');
   }
 }
+
+late final MqttManager mqttManager;
