@@ -29,11 +29,6 @@ void mqttDataHandler(WidgetRef ref, String dataJson) {
   final Map<String, dynamic> parsedData = jsonDecode(dataJson);
   final DateTime? timeRecord = _parseTimeRecord(parsedData['timeRecord']);
 
-  // 발행시간이 없으면 무시
-  if (timeRecord == null) {
-    print('❌ MQTT data에 발행시간이 없습니다');
-    return;
-  }
   handleParsedData(parsedData, 'messageData', (dataList) {
     print('✅ MQTT 메세지 수신');
   });
