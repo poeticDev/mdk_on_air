@@ -26,3 +26,5 @@ class AppDatabase extends _$AppDatabase {
     return driftDatabase(name: 'tablet_database');
   }
 }
+
+late final AppDatabase appDb;

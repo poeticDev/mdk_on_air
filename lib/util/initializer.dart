@@ -1,6 +1,6 @@
-
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mdk_on_air/util/drift.dart';
+import 'package:mdk_on_air/util/kiosk.dart';
 
 class AppInitializer {
   static bool _isInitialized = false;
@@ -12,15 +12,13 @@ class AppInitializer {
 
   AppInitializer._internal();
 
-
   static bool getInitializedStatus() {
     return _isInitialized;
   }
 
   static Stream<String> initialize(WidgetRef ref) async* {
-    if(_isInitialized) {
+    if (_isInitialized) {
       yield 'done';
-
     }
 
     /// 1. 하드웨어 세팅
@@ -29,14 +27,17 @@ class AppInitializer {
     await _requestPermissions();
 
     /// 1.2 키오스크 모드 활성화 및 네비게이션 바 숨김
+    KioskModeManager.enableKioskMode();
+    KioskModeManager.hideNavigationBar();
 
     /// 2. Data
     /// 2.1. GetIt 세팅
     /// 2.2 Database 열기
-
+    yield 'Database 여는 중...';
+    appDb = AppDatabase();
 
     // 전역 데이터 초기화 및 업데이트
-
+    // await globalData.updateGlobalData();
     // 버튼과 페이지 데이터 초기화
 
     /// 3. Network
@@ -47,8 +48,7 @@ class AppInitializer {
     yield ' ';
   }
 
-  static Future<void> _requestPermissions() async {
+  static Future<void> _requestPermissions() async {}
 
-  }
 
 }
