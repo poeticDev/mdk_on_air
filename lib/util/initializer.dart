@@ -34,7 +34,7 @@ class AppInitializer {
     /// 2.1. GetIt 세팅
     /// 2.2 Database 열기
     yield 'Database 여는 중...';
-    appDb = AppDatabase();
+
 
     // 전역 데이터 초기화 및 업데이트
     // await globalData.updateGlobalData();

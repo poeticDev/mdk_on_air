@@ -28,6 +28,7 @@ dependencies:
   riverpod_annotation: ^2.6.1
 
   ### data tools
+  get_it: ^8.0.2
   drift: ^2.21.0
   drift_flutter: ^0.2.0
   image_picker: ^1.1.2
