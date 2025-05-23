@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mdk_on_air/componant/splash_screen.dart';
 import 'package:mdk_on_air/const/color.dart';
 import 'package:mdk_on_air/const/studio_states.dart';
 import 'package:mdk_on_air/model/studio_state_model.dart';
+import 'package:mdk_on_air/util/initializer.dart';
 import 'package:mdk_on_air/util/state_manager.dart';
 
 class DefaultLayout extends ConsumerWidget {

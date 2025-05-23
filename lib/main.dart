@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mdk_on_air/componant/splash_screen.dart';
 import 'package:mdk_on_air/layout/default_layout.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Paperlogy'),
       debugShowCheckedModeBanner: false,
-      home: DefaultLayout(),
+      home: SplashScreen(),
     );
   }
 }

@@ -57,7 +57,7 @@ class AppInitializer {
     }
 
     _isInitialized = true;
-    yield ' ';
+    yield '앱 초기화 완료';
   }
 
   // 권한 요청 처리
