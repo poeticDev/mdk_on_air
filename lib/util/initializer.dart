@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mdk_on_air/util/custom_permission_handler.dart';
 import 'package:mdk_on_air/util/drift.dart';
@@ -43,10 +45,9 @@ class AppInitializer {
     // 전역 데이터 초기화 및 업데이트
     await globalData.updateGlobalData();
 
-    if(globalData.id == null) {
+    if (globalData.id == null) {
       yield 'Database 초기화 중...';
       await globalData.initializeDB();
-
     }
 
     /// 3. Network
@@ -81,6 +82,8 @@ class AppInitializer {
 
   /// 3.2. Network
   /// 3.2.1 MqttManager 오픈
+  static Timer? _retryTimer;
+
   static Future<void> openMqttManager(WidgetRef ref) async {
     print('MqttManager를 오픈 중입니다...');
 
@@ -92,18 +95,29 @@ class AppInitializer {
         password: globalData.serverMqttPassword,
         clientId: globalData.deviceId,
       );
-      await mqttManager.connect();
+      await mqttManager!.connect();
+
+      _retryTimer?.cancel();
+      _retryTimer = null;
     } catch (e) {
       print('❌ MQTT 연결 실패: $e');
+      _retryTimer ??= Timer(Duration(minutes: 5), () {
+        _retryTimer = null; // 다시 설정될 수 있도록 초기화
+        openMqttManager(ref);
+      });
     }
   }
 
   /// 3.2.2 토픽 구독
-  static void subscribeTopics(WidgetRef ref) {
-    for (var topic in SUBSCRIBING_TOPICS) {
-      mqttManager.subscribe(topic);
+  static void subscribeTopics(WidgetRef ref) async {
+    if(mqttManager == null) {
+      await openMqttManager(ref);
     }
-    mqttManager.listen((topic, message) {
+
+    for (var topic in SUBSCRIBING_TOPICS) {
+      mqttManager!.subscribe(topic);
+    }
+    mqttManager!.listen((topic, message) {
       onMqttReceived(ref, topic, message);
     });
   }

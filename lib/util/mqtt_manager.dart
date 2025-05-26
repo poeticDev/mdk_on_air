@@ -18,8 +18,11 @@ const List<String> SUBSCRIBING_TOPICS = [
 void onMqttReceived(WidgetRef ref, String topic, String message) {
   // data : media data, message
   if (topic.split('/').last == DEVICE_NAME) {
+    print('✅ MQTT 메세지 수신');
+
     /// 스테이트 변경 로직
     final parsedInt = int.tryParse(message) ?? 0;
+    print(parsedInt);
     ref.read(studioStateProvider.notifier).state = STATE_LIST[parsedInt];
 
     // mqttDataHandler(ref, message);
@@ -44,13 +47,16 @@ void stateHandler(WidgetRef ref, String dataJson) {
   print('✅ MQTT State 수신');
   final Map<String, dynamic> parsedData = jsonDecode(dataJson);
   if (parsedData.containsKey('temperature')) {
-    final double temperature =
-        double.tryParse(parsedData['temperature']) ?? 0.0;
+    final raw = double.tryParse(parsedData['temperature']);
+    final double temperature = raw != null ? (raw * 10).round() / 10 : 0.0;
+
     ref.read(temperatureProvider.notifier).state = temperature;
   }
 
   if (parsedData.containsKey('humidity')) {
-    final double humidity = double.tryParse(parsedData['humidity']) ?? 0.0;
+    final raw = double.tryParse(parsedData['humidity']);
+    final double humidity = raw != null ? (raw * 10).round() / 10 : 0.0;
+
     ref.read(temperatureProvider.notifier).state = humidity;
   }
 }
@@ -220,4 +226,4 @@ class MqttManager {
   }
 }
 
-late final MqttManager mqttManager;
+MqttManager? mqttManager;

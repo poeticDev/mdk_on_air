@@ -1,7 +1,7 @@
 import 'package:animated_gradient_box/animated_gradient_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mdk_on_air/componant/sensor_column.dart';
+import 'package:mdk_on_air/componant/sensor_text.dart';
 import 'package:mdk_on_air/const/studio_states.dart';
 import 'package:mdk_on_air/const/style.dart';
 import 'package:mdk_on_air/model/studio_state_model.dart';
@@ -12,7 +12,7 @@ class DefaultLayout extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // StudioState currentState = STATE_GOOD;
+    // StudioState currentState = STATE_CHECK;
     StudioState currentState = ref.watch(studioStateProvider);
     List<Color> borderGradientColors = [Colors.transparent];
 
