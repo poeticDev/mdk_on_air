@@ -20,4 +20,10 @@ final StudioState STATE_CHECK = StudioState(
   fontColor: WHITE_TEXT_COLOR,
 );
 
-final List<StudioState> STATE_LIST = [STATE_READY, STATE_ON_AIR, STATE_CHECK];
+final StudioState STATE_CHECK_END = StudioState(
+  text: '점검 종료',
+  bgColor: BG_YELLOW_SOFT,
+  fontColor: BLACK_TEXT_COLOR,
+);
+
+final List<StudioState> STATE_LIST = [STATE_READY, STATE_ON_AIR, STATE_CHECK, STATE_CHECK_END];

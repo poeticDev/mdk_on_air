@@ -12,7 +12,7 @@ class DefaultLayout extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // StudioState currentState = STATE_CHECK;
+    // StudioState currentState = STATE_GOOD;
     StudioState currentState = ref.watch(studioStateProvider);
     List<Color> borderGradientColors = [Colors.transparent];
 
