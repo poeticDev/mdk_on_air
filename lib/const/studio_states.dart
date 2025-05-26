@@ -15,7 +15,7 @@ final StudioState STATE_READY = StudioState(
 );
 
 final StudioState STATE_CHECK = StudioState(
-  text: '자동 점검 중',
+  text: '자동\n점검 중',
   bgColor: BG_BLUE,
   fontColor: WHITE_TEXT_COLOR,
 );
