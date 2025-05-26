@@ -19,3 +19,5 @@ final StudioState STATE_CHECK = StudioState(
   bgColor: BG_BLUE,
   fontColor: WHITE_TEXT_COLOR,
 );
+
+final List<StudioState> STATE_LIST = [STATE_READY, STATE_ON_AIR, STATE_CHECK];

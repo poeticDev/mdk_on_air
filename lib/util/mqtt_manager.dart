@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mdk_on_air/const/studio_states.dart';
+import 'package:mdk_on_air/util/state_manager.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
@@ -16,7 +18,11 @@ const List<String> SUBSCRIBING_TOPICS = [
 void onMqttReceived(WidgetRef ref, String topic, String message) {
   // data : media data, message
   if (topic.split('/').last == DEVICE_NAME) {
-    mqttDataHandler(ref, message);
+    /// 스테이트 변경 로직
+    final parsedInt = int.tryParse(message) ?? 0;
+    ref.read(studioStateProvider.notifier).state = STATE_LIST[parsedInt];
+
+    // mqttDataHandler(ref, message);
   }
   // states
   else if (topic == 'node-mdk/states') {
@@ -27,10 +33,11 @@ void onMqttReceived(WidgetRef ref, String topic, String message) {
 /// Data 핸들링
 void mqttDataHandler(WidgetRef ref, String dataJson) {
   final Map<String, dynamic> parsedData = jsonDecode(dataJson);
-  final DateTime? timeRecord = _parseTimeRecord(parsedData['timeRecord']);
+  // final DateTime? timeRecord = _parseTimeRecord(parsedData['timeRecord']);
 
-  handleParsedData(parsedData, 'messageData', (dataList) {
+  handleParsedData(parsedData, 'studio', (dataList) {
     print('✅ MQTT 메세지 수신');
+
   });
 }
 
