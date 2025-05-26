@@ -9,7 +9,7 @@ import 'drift.dart';
 class GlobalData {
   /// Basic Info
   /// 0. 아이디
-  late int id;
+  int? id;
 
   /// 1. 강의실 정보
   late String deviceId;
@@ -73,6 +73,8 @@ class GlobalData {
         serverMqttPort = basicInfoData.serverMqttPort;
         serverMqttId = basicInfoData.serverMqttId;
         serverMqttPassword = basicInfoData.serverMqttPassword;
+      } else {
+
       }
     } catch (e, stacktrace) {
       print('Error in _updateGlobalDataFromDB: $e');
@@ -90,7 +92,7 @@ class GlobalData {
     final db = GetIt.I<AppDatabase>();
 
     // 로고 이미지 파일을 로드하여 DB에 저장
-    final ByteData bytes = await rootBundle.load('asset/img/logo.png');
+    final ByteData bytes = await rootBundle.load('asset/img/logo.gif');
     final Uint8List imageList = bytes.buffer.asUint8List();
 
     // 기본 정보 생성
@@ -104,9 +106,6 @@ class GlobalData {
     // 등록한 DB를 업데이트
     await updateGlobalData();
   }
-
-  /// GlobalData를 반환하는 메서드 (현재 구현되지 않음)
-  getGlobalData() {}
 }
 
 // GlobalData 클래스의 인스턴스를 싱글톤처럼 사용하는 전역 변수

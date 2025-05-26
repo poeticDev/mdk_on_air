@@ -18,11 +18,14 @@ class _SplashState extends ConsumerState<SplashScreen> {
       body: SafeArea(
         child: StreamBuilder(
           stream: AppInitializer.initialize(ref),
+          initialData: '',
           builder: (context, snapshot) {
             if (snapshot.data == '앱 초기화 완료') {
-              Navigator.of(
-                context,
-              ).push(MaterialPageRoute(builder: (context) => DefaultLayout()));
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => DefaultLayout()),
+                );
+              });
             }
 
             return LayoutBuilder(
@@ -30,10 +33,12 @@ class _SplashState extends ConsumerState<SplashScreen> {
                 final mWidth = constraints.maxWidth;
                 final mHeight = constraints.maxHeight;
                 final circleSize = (mWidth < mHeight ? mWidth : mHeight) / 2;
-                final double fontSize = circleSize * 0.2 > 12 ? circleSize : 12;
+                final double fontSize = 12;
                 final padding = mHeight - circleSize - fontSize;
 
-                return Center(
+                return SizedBox(
+                  width: mWidth,
+                  height: mHeight,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -45,7 +50,7 @@ class _SplashState extends ConsumerState<SplashScreen> {
                             Align(
                               alignment: Alignment.center,
                               child: Image.asset(
-                                'asset/img/logo.png',
+                                'asset/img/logo.gif',
                                 width: circleSize * 0.7,
                                 height: circleSize * 0.7,
                                 fit: BoxFit.contain,

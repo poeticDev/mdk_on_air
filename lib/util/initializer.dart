@@ -4,6 +4,7 @@ import 'package:mdk_on_air/util/drift.dart';
 import 'package:mdk_on_air/util/global_data.dart';
 import 'package:mdk_on_air/util/kiosk.dart';
 import 'package:mdk_on_air/util/mqtt_manager.dart';
+import 'package:uuid/uuid.dart';
 
 class AppInitializer {
   static bool _isInitialized = false;
@@ -42,6 +43,12 @@ class AppInitializer {
     // 전역 데이터 초기화 및 업데이트
     await globalData.updateGlobalData();
 
+    if(globalData.id == null) {
+      yield 'Database 초기화 중...';
+      await globalData.initializeDB();
+
+    }
+
     /// 3. Network
     /// 3.1 OSC -> 스튜디오 불필요
     /// 3.2 MQTT
@@ -76,6 +83,7 @@ class AppInitializer {
   /// 3.2.1 MqttManager 오픈
   static Future<void> openMqttManager(WidgetRef ref) async {
     print('MqttManager를 오픈 중입니다...');
+
     try {
       mqttManager = MqttManager(
         broker: globalData.serverIp,
