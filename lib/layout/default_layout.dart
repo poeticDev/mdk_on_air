@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mdk_on_air/componant/sensor_column.dart';
 import 'package:mdk_on_air/componant/splash_screen.dart';
 import 'package:mdk_on_air/const/color.dart';
 import 'package:mdk_on_air/const/studio_states.dart';
@@ -60,12 +61,11 @@ class DefaultLayout extends ConsumerWidget {
                             color: currentState.fontColor,
                           ),
                         ),
-                        Text(
-                          '24.7℃',
-                          style: SENSOR_FONT_STYLE.copyWith(
-                            fontSize: sensorFontSize,
-                            color: currentState.fontColor,
-                          ),
+                        SensorText(
+                          provider: temperatureProvider,
+                          unitString: '℃',
+                          fontSize: sensorFontSize,
+                          fontColor: currentState.fontColor,
                         ),
                       ],
                     ),
@@ -78,12 +78,11 @@ class DefaultLayout extends ConsumerWidget {
                             color: currentState.fontColor,
                           ),
                         ),
-                        Text(
-                          '46.1%',
-                          style: SENSOR_FONT_STYLE.copyWith(
-                            fontSize: sensorFontSize,
-                            color: currentState.fontColor,
-                          ),
+                        SensorText(
+                          provider: humidityProvider,
+                          unitString: '%',
+                          fontSize: sensorFontSize,
+                          fontColor: currentState.fontColor,
                         ),
                       ],
                     ),
