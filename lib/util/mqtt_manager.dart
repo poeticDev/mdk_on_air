@@ -26,7 +26,7 @@ void onMqttReceived(WidgetRef ref, String topic, String message) {
   }
   // states
   else if (topic == 'node-mdk/states') {
-    stateHandler();
+    stateHandler(ref, message);
   }
 }
 
@@ -37,12 +37,22 @@ void mqttDataHandler(WidgetRef ref, String dataJson) {
 
   handleParsedData(parsedData, 'studio', (dataList) {
     print('✅ MQTT 메세지 수신');
-
   });
 }
 
-void stateHandler() {
+void stateHandler(WidgetRef ref, String dataJson) {
   print('✅ MQTT State 수신');
+  final Map<String, dynamic> parsedData = jsonDecode(dataJson);
+  if (parsedData.containsKey('temperature')) {
+    final double temperature =
+        double.tryParse(parsedData['temperature']) ?? 0.0;
+    ref.read(temperatureProvider.notifier).state = temperature;
+  }
+
+  if (parsedData.containsKey('humidity')) {
+    final double humidity = double.tryParse(parsedData['humidity']) ?? 0.0;
+    ref.read(temperatureProvider.notifier).state = humidity;
+  }
 }
 
 /// JSON에서 발행시간(timeRecord) 파싱
