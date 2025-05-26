@@ -25,6 +25,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.13.0"
+  animated_gradient_box:
+    dependency: "direct main"
+    description:
+      name: animated_gradient_box
+      sha256: "815591d65cff435adc7b784554069c3bf26dcacd1c001d53c368ce295e0b217b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   args:
     dependency: transitive
     description:
