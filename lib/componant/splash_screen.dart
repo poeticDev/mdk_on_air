@@ -34,7 +34,7 @@ class _SplashState extends ConsumerState<SplashScreen> {
                 final mHeight = constraints.maxHeight;
                 final circleSize = (mWidth < mHeight ? mWidth : mHeight) / 2;
                 final double fontSize = 12;
-                final padding = mHeight - circleSize - fontSize;
+                final padding = 20.0;
 
                 return SizedBox(
                   width: mWidth,

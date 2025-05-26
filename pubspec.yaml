@@ -16,6 +16,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   animated_gradient_box: ^0.0.2
 
+
   ### Network
   mqtt_client: ^10.5.1
   osc:
@@ -48,6 +49,7 @@ dev_dependencies:
   custom_lint: ^0.7.0
   riverpod_lint: ^2.6.3
   flutter_lints: ^5.0.0
+  screen_off: ^0.0.6
 
 
 flutter:
