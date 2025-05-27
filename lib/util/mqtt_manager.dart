@@ -53,7 +53,7 @@ void stateHandler(WidgetRef ref, String dataJson) {
   print('✅ MQTT State 수신');
   final Map<String, dynamic> parsedData = jsonDecode(dataJson);
 
-  final sensor = parsedData['sensor'];
+  final sensor = parsedData['sensor1'];
   if (sensor is Map<String, dynamic>) {
     if (sensor.containsKey('temperature')) {
       final raw = double.tryParse(sensor['temperature'].toString());
