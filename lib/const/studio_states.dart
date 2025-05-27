@@ -26,4 +26,11 @@ final StudioState STATE_CHECK_END = StudioState(
   fontColor: BLACK_TEXT_COLOR,
 );
 
-final List<StudioState> STATE_LIST = [STATE_READY, STATE_ON_AIR, STATE_CHECK, STATE_CHECK_END];
+
+final StudioState STATE_OFF = StudioState(
+  text: 'OFF',
+  bgColor: Colors.grey,
+  fontColor: BLACK_TEXT_COLOR,
+);
+
+final List<StudioState> STATE_LIST = [STATE_READY, STATE_ON_AIR, STATE_CHECK, STATE_CHECK_END, STATE_OFF];

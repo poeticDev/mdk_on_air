@@ -8,6 +8,8 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
 const DEVICE_NAME = 'ON_AIR_1';
+// const DEVICE_NAME = 'ON_AIR_2';
+// const DEVICE_NAME = 'ON_AIR_3';
 
 const List<String> SUBSCRIBING_TOPICS = [
   'node-mdk/+/$DEVICE_NAME',
@@ -15,15 +17,19 @@ const List<String> SUBSCRIBING_TOPICS = [
 ];
 
 /// Mqtt 수신시
-void onMqttReceived(WidgetRef ref, String topic, String message) {
+Future<void> onMqttReceived(WidgetRef ref, String topic, String message) async {
   // data : media data, message
   if (topic.split('/').last == DEVICE_NAME) {
     print('✅ MQTT 메세지 수신');
 
     /// 스테이트 변경 로직
     final parsedInt = int.tryParse(message) ?? 0;
-    print(parsedInt);
-    ref.read(studioStateProvider.notifier).state = STATE_LIST[parsedInt];
+    if (parsedInt == 99) {
+    } else if (parsedInt == 98) {
+    } else {
+      ref.read(studioStateProvider.notifier).state =
+          STATE_LIST[parsedInt] ?? STATE_LIST[0];
+    }
 
     // mqttDataHandler(ref, message);
   }
@@ -46,18 +52,22 @@ void mqttDataHandler(WidgetRef ref, String dataJson) {
 void stateHandler(WidgetRef ref, String dataJson) {
   print('✅ MQTT State 수신');
   final Map<String, dynamic> parsedData = jsonDecode(dataJson);
-  if (parsedData.containsKey('temperature')) {
-    final raw = double.tryParse(parsedData['temperature']);
-    final double temperature = raw != null ? (raw * 10).round() / 10 : 0.0;
 
-    ref.read(temperatureProvider.notifier).state = temperature;
-  }
+  final sensor = parsedData['sensor'];
+  if (sensor is Map<String, dynamic>) {
+    if (sensor.containsKey('temperature')) {
+      final raw = double.tryParse(sensor['temperature'].toString());
+      final double temperature = raw != null ? (raw * 10).round() / 10 : -999.0;
+      ref.read(temperatureProvider.notifier).state = temperature;
+    }
 
-  if (parsedData.containsKey('humidity')) {
-    final raw = double.tryParse(parsedData['humidity']);
-    final double humidity = raw != null ? (raw * 10).round() / 10 : 0.0;
-
-    ref.read(temperatureProvider.notifier).state = humidity;
+    if (sensor.containsKey('humidity')) {
+      final raw = double.tryParse(sensor['humidity'].toString());
+      final double humidity = raw != null ? (raw * 10).round() / 10 : -999.0;
+      ref.read(humidityProvider.notifier).state = humidity;
+    }
+  } else {
+    print('❌ sensor 필드가 없거나 형식이 잘못됨: $parsedData');
   }
 }
 
