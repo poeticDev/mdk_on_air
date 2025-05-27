@@ -2,15 +2,18 @@
 
 Wide on-air display
 
-## Getting Started
+# Release
 
-This project is a starting point for a Flutter application.
+## 1.0.0
+- **빌드명** : Pilot
+- **설치 장소** : 광주보건대 스튜디오
+- **주요 기능** :
+    - MQTT
+      - 0~n : 스튜디오 상태 표시
+      - sensor : 온습도 센서 데이터 표시
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Customizing Step
+1. mqtt_manager.dart
+   - DEVICE_NAME 변경
+   - stateHandler 내부 sensor 번호 변경
+2. globalData deviceId 확인 -> mqtt 구분자가 됨
