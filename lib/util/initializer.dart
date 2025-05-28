@@ -55,11 +55,7 @@ class AppInitializer {
     /// 3.2 MQTT
     yield 'MQTT 매니저 초기화 중...';
     try {
-      await openMqttManager(ref)
-          .then((_) {
-            subscribeTopics(ref);
-          })
-          .timeout(Duration(seconds: 10));
+      await openMqttManager(ref).timeout(Duration(seconds: 10));
     } catch (e) {
       print(' ❌ Mqtt 매니저 초기화 실패! : $e');
     }
@@ -95,30 +91,23 @@ class AppInitializer {
         password: globalData.serverMqttPassword,
         clientId: globalData.deviceId,
       );
-      await mqttManager!.connect();
-
-      _retryTimer?.cancel();
-      _retryTimer = null;
+      await mqttManager!.connectAndHandle(ref);
     } catch (e) {
       print('❌ MQTT 연결 실패: $e');
-      _retryTimer ??= Timer(Duration(minutes: 5), () {
-        _retryTimer = null; // 다시 설정될 수 있도록 초기화
-        openMqttManager(ref);
-      });
     }
   }
 
-  /// 3.2.2 토픽 구독
-  static void subscribeTopics(WidgetRef ref) async {
-    if(mqttManager == null) {
-      await openMqttManager(ref);
-    }
-
-    for (var topic in SUBSCRIBING_TOPICS) {
-      mqttManager!.subscribe(topic);
-    }
-    mqttManager!.listen((topic, message) {
-      onMqttReceived(ref, topic, message);
-    });
-  }
+  // /// 3.2.2 토픽 구독
+  // static void subscribeTopics(WidgetRef ref) async {
+  //   if(mqttManager == null) {
+  //     await openMqttManager(ref);
+  //   }
+  //
+  //   for (var topic in SUBSCRIBING_TOPICS) {
+  //     mqttManager!.subscribe(topic);
+  //   }
+  //   mqttManager!.listen((topic, message) {
+  //     onMqttReceived(ref, topic, message);
+  //   });
+  // }
 }
