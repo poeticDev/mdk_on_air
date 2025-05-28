@@ -24,7 +24,7 @@ class AppInitializer {
 
   static Stream<String> initialize(WidgetRef ref) async* {
     if (_isInitialized) {
-      yield 'done';
+      yield '앱 초기화 완료';
     }
 
     /// 1. 하드웨어 세팅

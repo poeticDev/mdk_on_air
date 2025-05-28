@@ -13,8 +13,11 @@ class KioskModeManager {
 
   // 키오스크 모드 활성화
   static Future<void> enableKioskMode() async {
-    await startKioskMode();
-    _kioskMode = KioskMode.enabled; // 활성화 시 상태 업데이트
+    if(!(await isKioskMode())) {
+      await startKioskMode();
+      _kioskMode = KioskMode.enabled; // 활성화 시 상태 업데이트
+    }
+
   }
 
   // 키오스크 모드 비활성화

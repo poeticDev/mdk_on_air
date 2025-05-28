@@ -98,7 +98,7 @@ class GlobalData {
     // 기본 정보 생성
     await db.createBasicInfo(
       BasicInfoCompanion(
-        deviceId: const Value('ghu-studio-onair1'),
+        deviceId: const Value('ghu-studio-onair3'),
         wifiName: const Value('mdk'),
         serverIp: const Value('192.168.11.12'),
       ),

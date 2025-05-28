@@ -7,8 +7,8 @@ import 'package:mdk_on_air/util/state_manager.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
-const DEVICE_NAME = 'ON_AIR_1';
-// const DEVICE_NAME = 'ON_AIR_2';
+// const DEVICE_NAME = 'ON_AIR_1';
+const DEVICE_NAME = 'ON_AIR_3';
 // const DEVICE_NAME = 'ON_AIR_3';
 
 const List<String> SUBSCRIBING_TOPICS = [

@@ -13,6 +13,16 @@ class SplashScreen extends ConsumerStatefulWidget {
 
 class _SplashState extends ConsumerState<SplashScreen> {
   @override
+  void initState() {
+    if (AppInitializer.getInitializedStatus()) {
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (context) => DefaultLayout()));
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
