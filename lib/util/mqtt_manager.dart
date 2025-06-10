@@ -8,8 +8,8 @@ import 'package:mdk_on_air/util/state_manager.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
-// const DEVICE_NAME = 'ON_AIR_1';
-const DEVICE_NAME = 'ON_AIR_3';
+const DEVICE_NAME = 'ON_AIR_1';
+// const DEVICE_NAME = 'ON_AIR_2';
 // const DEVICE_NAME = 'ON_AIR_3';
 
 const List<String> SUBSCRIBING_TOPICS = [
@@ -124,8 +124,6 @@ class MqttManager {
 
   WidgetRef? ref;
 
-
-
   /// MQTT 클라이언트 기본 설정
   void _configureClient() {
     if (isSecure && port == 1883) {
@@ -218,7 +216,7 @@ class MqttManager {
   /// 연결 해제 콜백
   void _onDisconnected() {
     print('❌ MQTT 서버 연결 해제됨');
-    if(ref != null) retryConnect(ref!);
+    if (ref != null) retryConnect(ref!);
   }
 
   /// 구독 성공 콜백
@@ -273,7 +271,6 @@ class MqttManager {
       await connectAndHandle(ref);
     });
   }
-
 }
 
 MqttManager? mqttManager;

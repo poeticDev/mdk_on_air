@@ -33,7 +33,7 @@ class AppInitializer {
     await _requestPermissions();
 
     /// 1.2 키오스크 모드 활성화 및 네비게이션 바 숨김
-    KioskModeManager.enableKioskMode();
+    // KioskModeManager.enableKioskMode();
     KioskModeManager.hideNavigationBar();
 
     /// 2. Data

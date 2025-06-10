@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mdk_on_air/componant/splash_screen.dart';
 import 'package:mdk_on_air/layout/default_layout.dart';
+import 'package:mdk_on_air/util/hdmi_watcher.dart';
 
 void main() {
+  // HdmiWatcher.initialize();
   runApp(ProviderScope(child: const MyApp()));
 }
 

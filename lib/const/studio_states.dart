@@ -21,7 +21,7 @@ final StudioState STATE_CHECK = StudioState(
 );
 
 final StudioState STATE_CHECK_END = StudioState(
-  text: '점검 종료',
+  text: '점검\n종료',
   bgColor: BG_YELLOW_SOFT,
   fontColor: BLACK_TEXT_COLOR,
 );
