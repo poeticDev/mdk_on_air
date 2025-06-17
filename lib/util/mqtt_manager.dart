@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mdk_on_air/const/studio_states.dart';
+import 'package:mdk_on_air/util/power_controller.dart';
 import 'package:mdk_on_air/util/state_manager.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
@@ -30,6 +31,10 @@ Future<void> onMqttReceived(WidgetRef ref, String topic, String message) async {
     } else {
       ref.read(studioStateProvider.notifier).state =
           STATE_LIST[parsedInt] ?? STATE_LIST[0];
+
+      if (parsedInt == 4) {
+        PowerController.shutdown();
+      }
     }
 
     // mqttDataHandler(ref, message);
