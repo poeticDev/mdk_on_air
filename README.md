@@ -29,10 +29,4 @@ Wide on-air display
 
 
 # Tox4 android setting
-- adb connect
-adb root
-adb remount
-adb push myapp.apk /system/priv-app/MyApp/MyApp.apk
-adb shell chmod 755 /system/priv-app/MyApp
-adb shell chmod 644 /system/priv-app/MyApp/MyApp.apk
-adb reboot
+- https://www.notion.so/2472272b974d8027ba11e9c4148f65eb?source=copy_link
