@@ -163,7 +163,7 @@ class MqttManager {
     _client.connectionMessage = connMessage;
 
     try {
-      await _client.connect();
+      await _client.connect().timeout(Duration(seconds: 10));
     } on NoConnectionException catch (e) {
       print('❌ 연결 실패: $e');
       _client.disconnect();
@@ -171,6 +171,9 @@ class MqttManager {
     } on SocketException catch (e) {
       print('❌ 소켓 예외 발생: $e');
       _client.disconnect();
+      return false;
+    } catch(e) {
+      print('❌ 연결 실패: $e');
       return false;
     }
 
@@ -267,10 +270,12 @@ class MqttManager {
     }
   }
 
-  void retryConnect(WidgetRef ref) {
+  void
+  retryConnect(WidgetRef ref) {
+    print('30초 후 MQTT 재연결을 시도합니다.');
     if (_retryTimer != null) return;
 
-    _retryTimer = Timer(Duration(minutes: 5), () async {
+    _retryTimer = Timer(Duration(seconds: 30), () async {
       _retryTimer = null;
       print('🔁 MQTT 재연결 시도 중...');
       await connectAndHandle(ref);

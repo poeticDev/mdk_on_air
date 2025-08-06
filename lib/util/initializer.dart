@@ -58,6 +58,8 @@ class AppInitializer {
       await openMqttManager(ref).timeout(Duration(seconds: 10));
     } catch (e) {
       print(' ❌ Mqtt 매니저 초기화 실패! : $e');
+      mqttManager!.retryConnect(ref);
+
     }
 
     _isInitialized = true;
@@ -94,6 +96,7 @@ class AppInitializer {
       await mqttManager!.connectAndHandle(ref);
     } catch (e) {
       print('❌ MQTT 연결 실패: $e');
+      mqttManager!.retryConnect(ref);
     }
   }
 
