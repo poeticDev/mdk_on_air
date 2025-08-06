@@ -6,6 +6,11 @@ class BasicInfo extends Table {
 
   /// 1. 디바이스 정보
   TextColumn get deviceId => text()();
+
+  TextColumn get deviceName => text()();
+
+  TextColumn get sensorName => text()();
+
   TextColumn get wifiName => text().nullable()();
 
   /// 2. 서버

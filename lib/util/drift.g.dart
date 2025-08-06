@@ -33,6 +33,28 @@ class $BasicInfoTable extends BasicInfo
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _deviceNameMeta = const VerificationMeta(
+    'deviceName',
+  );
+  @override
+  late final GeneratedColumn<String> deviceName = GeneratedColumn<String>(
+    'device_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sensorNameMeta = const VerificationMeta(
+    'sensorName',
+  );
+  @override
+  late final GeneratedColumn<String> sensorName = GeneratedColumn<String>(
+    'sensor_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _wifiNameMeta = const VerificationMeta(
     'wifiName',
   );
@@ -54,7 +76,7 @@ class $BasicInfoTable extends BasicInfo
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: false,
-    defaultValue: const Constant('192.168.11.12'),
+    defaultValue: const Constant('192.168.11.120'),
   );
   static const VerificationMeta _serverMqttPortMeta = const VerificationMeta(
     'serverMqttPort',
@@ -108,6 +130,8 @@ class $BasicInfoTable extends BasicInfo
   List<GeneratedColumn> get $columns => [
     id,
     deviceId,
+    deviceName,
+    sensorName,
     wifiName,
     serverIp,
     serverMqttPort,
@@ -137,6 +161,22 @@ class $BasicInfoTable extends BasicInfo
       );
     } else if (isInserting) {
       context.missing(_deviceIdMeta);
+    }
+    if (data.containsKey('device_name')) {
+      context.handle(
+        _deviceNameMeta,
+        deviceName.isAcceptableOrUnknown(data['device_name']!, _deviceNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_deviceNameMeta);
+    }
+    if (data.containsKey('sensor_name')) {
+      context.handle(
+        _sensorNameMeta,
+        sensorName.isAcceptableOrUnknown(data['sensor_name']!, _sensorNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sensorNameMeta);
     }
     if (data.containsKey('wifi_name')) {
       context.handle(
@@ -202,6 +242,16 @@ class $BasicInfoTable extends BasicInfo
             DriftSqlType.string,
             data['${effectivePrefix}device_id'],
           )!,
+      deviceName:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.string,
+            data['${effectivePrefix}device_name'],
+          )!,
+      sensorName:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.string,
+            data['${effectivePrefix}sensor_name'],
+          )!,
       wifiName: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}wifi_name'],
@@ -246,6 +296,8 @@ class BasicInfoData extends DataClass implements Insertable<BasicInfoData> {
 
   /// 1. 디바이스 정보
   final String deviceId;
+  final String deviceName;
+  final String sensorName;
   final String? wifiName;
 
   /// 2. 서버
@@ -259,6 +311,8 @@ class BasicInfoData extends DataClass implements Insertable<BasicInfoData> {
   const BasicInfoData({
     required this.id,
     required this.deviceId,
+    required this.deviceName,
+    required this.sensorName,
     this.wifiName,
     required this.serverIp,
     required this.serverMqttPort,
@@ -271,6 +325,8 @@ class BasicInfoData extends DataClass implements Insertable<BasicInfoData> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['device_id'] = Variable<String>(deviceId);
+    map['device_name'] = Variable<String>(deviceName);
+    map['sensor_name'] = Variable<String>(sensorName);
     if (!nullToAbsent || wifiName != null) {
       map['wifi_name'] = Variable<String>(wifiName);
     }
@@ -286,6 +342,8 @@ class BasicInfoData extends DataClass implements Insertable<BasicInfoData> {
     return BasicInfoCompanion(
       id: Value(id),
       deviceId: Value(deviceId),
+      deviceName: Value(deviceName),
+      sensorName: Value(sensorName),
       wifiName:
           wifiName == null && nullToAbsent
               ? const Value.absent()
@@ -306,6 +364,8 @@ class BasicInfoData extends DataClass implements Insertable<BasicInfoData> {
     return BasicInfoData(
       id: serializer.fromJson<int>(json['id']),
       deviceId: serializer.fromJson<String>(json['deviceId']),
+      deviceName: serializer.fromJson<String>(json['deviceName']),
+      sensorName: serializer.fromJson<String>(json['sensorName']),
       wifiName: serializer.fromJson<String?>(json['wifiName']),
       serverIp: serializer.fromJson<String>(json['serverIp']),
       serverMqttPort: serializer.fromJson<int>(json['serverMqttPort']),
@@ -322,6 +382,8 @@ class BasicInfoData extends DataClass implements Insertable<BasicInfoData> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'deviceId': serializer.toJson<String>(deviceId),
+      'deviceName': serializer.toJson<String>(deviceName),
+      'sensorName': serializer.toJson<String>(sensorName),
       'wifiName': serializer.toJson<String?>(wifiName),
       'serverIp': serializer.toJson<String>(serverIp),
       'serverMqttPort': serializer.toJson<int>(serverMqttPort),
@@ -334,6 +396,8 @@ class BasicInfoData extends DataClass implements Insertable<BasicInfoData> {
   BasicInfoData copyWith({
     int? id,
     String? deviceId,
+    String? deviceName,
+    String? sensorName,
     Value<String?> wifiName = const Value.absent(),
     String? serverIp,
     int? serverMqttPort,
@@ -343,6 +407,8 @@ class BasicInfoData extends DataClass implements Insertable<BasicInfoData> {
   }) => BasicInfoData(
     id: id ?? this.id,
     deviceId: deviceId ?? this.deviceId,
+    deviceName: deviceName ?? this.deviceName,
+    sensorName: sensorName ?? this.sensorName,
     wifiName: wifiName.present ? wifiName.value : this.wifiName,
     serverIp: serverIp ?? this.serverIp,
     serverMqttPort: serverMqttPort ?? this.serverMqttPort,
@@ -354,6 +420,10 @@ class BasicInfoData extends DataClass implements Insertable<BasicInfoData> {
     return BasicInfoData(
       id: data.id.present ? data.id.value : this.id,
       deviceId: data.deviceId.present ? data.deviceId.value : this.deviceId,
+      deviceName:
+          data.deviceName.present ? data.deviceName.value : this.deviceName,
+      sensorName:
+          data.sensorName.present ? data.sensorName.value : this.sensorName,
       wifiName: data.wifiName.present ? data.wifiName.value : this.wifiName,
       serverIp: data.serverIp.present ? data.serverIp.value : this.serverIp,
       serverMqttPort:
@@ -377,6 +447,8 @@ class BasicInfoData extends DataClass implements Insertable<BasicInfoData> {
     return (StringBuffer('BasicInfoData(')
           ..write('id: $id, ')
           ..write('deviceId: $deviceId, ')
+          ..write('deviceName: $deviceName, ')
+          ..write('sensorName: $sensorName, ')
           ..write('wifiName: $wifiName, ')
           ..write('serverIp: $serverIp, ')
           ..write('serverMqttPort: $serverMqttPort, ')
@@ -391,6 +463,8 @@ class BasicInfoData extends DataClass implements Insertable<BasicInfoData> {
   int get hashCode => Object.hash(
     id,
     deviceId,
+    deviceName,
+    sensorName,
     wifiName,
     serverIp,
     serverMqttPort,
@@ -404,6 +478,8 @@ class BasicInfoData extends DataClass implements Insertable<BasicInfoData> {
       (other is BasicInfoData &&
           other.id == this.id &&
           other.deviceId == this.deviceId &&
+          other.deviceName == this.deviceName &&
+          other.sensorName == this.sensorName &&
           other.wifiName == this.wifiName &&
           other.serverIp == this.serverIp &&
           other.serverMqttPort == this.serverMqttPort &&
@@ -415,6 +491,8 @@ class BasicInfoData extends DataClass implements Insertable<BasicInfoData> {
 class BasicInfoCompanion extends UpdateCompanion<BasicInfoData> {
   final Value<int> id;
   final Value<String> deviceId;
+  final Value<String> deviceName;
+  final Value<String> sensorName;
   final Value<String?> wifiName;
   final Value<String> serverIp;
   final Value<int> serverMqttPort;
@@ -424,6 +502,8 @@ class BasicInfoCompanion extends UpdateCompanion<BasicInfoData> {
   const BasicInfoCompanion({
     this.id = const Value.absent(),
     this.deviceId = const Value.absent(),
+    this.deviceName = const Value.absent(),
+    this.sensorName = const Value.absent(),
     this.wifiName = const Value.absent(),
     this.serverIp = const Value.absent(),
     this.serverMqttPort = const Value.absent(),
@@ -434,16 +514,22 @@ class BasicInfoCompanion extends UpdateCompanion<BasicInfoData> {
   BasicInfoCompanion.insert({
     this.id = const Value.absent(),
     required String deviceId,
+    required String deviceName,
+    required String sensorName,
     this.wifiName = const Value.absent(),
     this.serverIp = const Value.absent(),
     this.serverMqttPort = const Value.absent(),
     this.serverMqttId = const Value.absent(),
     this.serverMqttPassword = const Value.absent(),
     this.createdAt = const Value.absent(),
-  }) : deviceId = Value(deviceId);
+  }) : deviceId = Value(deviceId),
+       deviceName = Value(deviceName),
+       sensorName = Value(sensorName);
   static Insertable<BasicInfoData> custom({
     Expression<int>? id,
     Expression<String>? deviceId,
+    Expression<String>? deviceName,
+    Expression<String>? sensorName,
     Expression<String>? wifiName,
     Expression<String>? serverIp,
     Expression<int>? serverMqttPort,
@@ -454,6 +540,8 @@ class BasicInfoCompanion extends UpdateCompanion<BasicInfoData> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (deviceId != null) 'device_id': deviceId,
+      if (deviceName != null) 'device_name': deviceName,
+      if (sensorName != null) 'sensor_name': sensorName,
       if (wifiName != null) 'wifi_name': wifiName,
       if (serverIp != null) 'server_ip': serverIp,
       if (serverMqttPort != null) 'server_mqtt_port': serverMqttPort,
@@ -467,6 +555,8 @@ class BasicInfoCompanion extends UpdateCompanion<BasicInfoData> {
   BasicInfoCompanion copyWith({
     Value<int>? id,
     Value<String>? deviceId,
+    Value<String>? deviceName,
+    Value<String>? sensorName,
     Value<String?>? wifiName,
     Value<String>? serverIp,
     Value<int>? serverMqttPort,
@@ -477,6 +567,8 @@ class BasicInfoCompanion extends UpdateCompanion<BasicInfoData> {
     return BasicInfoCompanion(
       id: id ?? this.id,
       deviceId: deviceId ?? this.deviceId,
+      deviceName: deviceName ?? this.deviceName,
+      sensorName: sensorName ?? this.sensorName,
       wifiName: wifiName ?? this.wifiName,
       serverIp: serverIp ?? this.serverIp,
       serverMqttPort: serverMqttPort ?? this.serverMqttPort,
@@ -494,6 +586,12 @@ class BasicInfoCompanion extends UpdateCompanion<BasicInfoData> {
     }
     if (deviceId.present) {
       map['device_id'] = Variable<String>(deviceId.value);
+    }
+    if (deviceName.present) {
+      map['device_name'] = Variable<String>(deviceName.value);
+    }
+    if (sensorName.present) {
+      map['sensor_name'] = Variable<String>(sensorName.value);
     }
     if (wifiName.present) {
       map['wifi_name'] = Variable<String>(wifiName.value);
@@ -521,6 +619,8 @@ class BasicInfoCompanion extends UpdateCompanion<BasicInfoData> {
     return (StringBuffer('BasicInfoCompanion(')
           ..write('id: $id, ')
           ..write('deviceId: $deviceId, ')
+          ..write('deviceName: $deviceName, ')
+          ..write('sensorName: $sensorName, ')
           ..write('wifiName: $wifiName, ')
           ..write('serverIp: $serverIp, ')
           ..write('serverMqttPort: $serverMqttPort, ')
@@ -547,6 +647,8 @@ typedef $$BasicInfoTableCreateCompanionBuilder =
     BasicInfoCompanion Function({
       Value<int> id,
       required String deviceId,
+      required String deviceName,
+      required String sensorName,
       Value<String?> wifiName,
       Value<String> serverIp,
       Value<int> serverMqttPort,
@@ -558,6 +660,8 @@ typedef $$BasicInfoTableUpdateCompanionBuilder =
     BasicInfoCompanion Function({
       Value<int> id,
       Value<String> deviceId,
+      Value<String> deviceName,
+      Value<String> sensorName,
       Value<String?> wifiName,
       Value<String> serverIp,
       Value<int> serverMqttPort,
@@ -582,6 +686,16 @@ class $$BasicInfoTableFilterComposer
 
   ColumnFilters<String> get deviceId => $composableBuilder(
     column: $table.deviceId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get deviceName => $composableBuilder(
+    column: $table.deviceName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sensorName => $composableBuilder(
+    column: $table.sensorName,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -635,6 +749,16 @@ class $$BasicInfoTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get deviceName => $composableBuilder(
+    column: $table.deviceName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sensorName => $composableBuilder(
+    column: $table.sensorName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get wifiName => $composableBuilder(
     column: $table.wifiName,
     builder: (column) => ColumnOrderings(column),
@@ -680,6 +804,16 @@ class $$BasicInfoTableAnnotationComposer
 
   GeneratedColumn<String> get deviceId =>
       $composableBuilder(column: $table.deviceId, builder: (column) => column);
+
+  GeneratedColumn<String> get deviceName => $composableBuilder(
+    column: $table.deviceName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get sensorName => $composableBuilder(
+    column: $table.sensorName,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get wifiName =>
       $composableBuilder(column: $table.wifiName, builder: (column) => column);
@@ -739,6 +873,8 @@ class $$BasicInfoTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 Value<String> deviceId = const Value.absent(),
+                Value<String> deviceName = const Value.absent(),
+                Value<String> sensorName = const Value.absent(),
                 Value<String?> wifiName = const Value.absent(),
                 Value<String> serverIp = const Value.absent(),
                 Value<int> serverMqttPort = const Value.absent(),
@@ -748,6 +884,8 @@ class $$BasicInfoTableTableManager
               }) => BasicInfoCompanion(
                 id: id,
                 deviceId: deviceId,
+                deviceName: deviceName,
+                sensorName: sensorName,
                 wifiName: wifiName,
                 serverIp: serverIp,
                 serverMqttPort: serverMqttPort,
@@ -759,6 +897,8 @@ class $$BasicInfoTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 required String deviceId,
+                required String deviceName,
+                required String sensorName,
                 Value<String?> wifiName = const Value.absent(),
                 Value<String> serverIp = const Value.absent(),
                 Value<int> serverMqttPort = const Value.absent(),
@@ -768,6 +908,8 @@ class $$BasicInfoTableTableManager
               }) => BasicInfoCompanion.insert(
                 id: id,
                 deviceId: deviceId,
+                deviceName: deviceName,
+                sensorName: sensorName,
                 wifiName: wifiName,
                 serverIp: serverIp,
                 serverMqttPort: serverMqttPort,

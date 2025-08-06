@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:drift/drift.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 
@@ -73,9 +74,7 @@ class GlobalData {
         serverMqttPort = basicInfoData.serverMqttPort;
         serverMqttId = basicInfoData.serverMqttId;
         serverMqttPassword = basicInfoData.serverMqttPassword;
-      } else {
-
-      }
+      } else {}
     } catch (e, stacktrace) {
       print('Error in _updateGlobalDataFromDB: $e');
       print(stacktrace);
@@ -100,7 +99,7 @@ class GlobalData {
       BasicInfoCompanion(
         deviceId: const Value('ghu-studio-onair1'),
         wifiName: const Value('mdk'),
-        serverIp: const Value('192.168.11.12'),
+        serverIp: const Value('192.168.219.138'),
       ),
     );
     // 등록한 DB를 업데이트
