@@ -47,7 +47,8 @@ class AppInitializer {
 
     if (globalData.id == null) {
       yield 'Database 초기화 중...';
-      await globalData.initializeDB();
+      // await globalData.initializeDB();
+      return;
     }
 
     /// 3. Network

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mdk_on_air/componant/configuration_dialog.dart';
 import 'package:mdk_on_air/const/color.dart';
 import 'package:mdk_on_air/layout/default_layout.dart';
+import 'package:mdk_on_air/util/drift.dart';
+import 'package:mdk_on_air/util/global_data.dart';
 import 'package:mdk_on_air/util/initializer.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -35,6 +39,31 @@ class _SplashState extends ConsumerState<SplashScreen> {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => DefaultLayout()),
                 );
+              });
+            }
+
+            if (snapshot.data == 'Database 초기화 중...') {
+              WidgetsBinding.instance.addPostFrameCallback((_) async {
+                final result = await showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) => ConfigurationDialog(
+                    onSave: (info) async {
+                      final db = GetIt.I<AppDatabase>();
+
+                      await db.createBasicInfo(info);
+                      await globalData.updateGlobalData(); // 다시 globalData 갱신
+                    },
+                  ),
+                );
+
+                if (mounted) {
+                  // MQTT 초기화 후 이동
+                  await AppInitializer.openMqttManager(ref);
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (_) => const DefaultLayout()),
+                  );
+                }
               });
             }
 

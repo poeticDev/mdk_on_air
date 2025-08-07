@@ -20,6 +20,7 @@ Wide on-air display
         - 0~n : 스튜디오 상태 표시
         - sensor : 온습도 센서 데이터 표시
         - 미연결시 30초마다 재연결 시도
+    - Configuration
 
 # Customizing Step
 1. mqtt_manager.dart
