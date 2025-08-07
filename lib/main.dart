@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mdk_on_air/componant/splash_screen.dart';
+import 'package:mdk_on_air/layout/default_layout.dart';
+import 'package:mdk_on_air/util/hdmi_watcher.dart';
 
 void main() {
-  runApp(const MyApp());
+  // HdmiWatcher.initialize();
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -11,11 +16,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'Paperlogy',
-      ),
+      theme: ThemeData(fontFamily: 'Paperlogy'),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(),
+      home: SplashScreen(),
     );
   }
 }
