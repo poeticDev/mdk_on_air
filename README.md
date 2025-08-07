@@ -12,7 +12,7 @@ Wide on-air display
       - 0~n : 스튜디오 상태 표시
       - sensor : 온습도 센서 데이터 표시
 
-## 1.0.1
+## 1.1.0
 - **빌드명** : Pilot
 - **설치 장소** : 광주보건대 스튜디오
 - **주요 기능** :
@@ -20,7 +20,7 @@ Wide on-air display
         - 0~n : 스튜디오 상태 표시
         - sensor : 온습도 센서 데이터 표시
         - 미연결시 30초마다 재연결 시도
-    - Configuration
+    - Configuration : 앱 첫 실행 시, 서버 IP, mqtt명 등 입력 가능
 
 # Customizing Step
 1. mqtt_manager.dart
