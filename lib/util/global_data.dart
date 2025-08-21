@@ -14,6 +14,8 @@ class GlobalData {
 
   /// 1. 강의실 정보
   late String deviceId;
+  late String deviceName;
+  late String sensorName;
   late String? wifiName;
 
   /// 2. 서버
@@ -68,6 +70,8 @@ class GlobalData {
         print('기본 정보 할당 중');
         id = basicInfoData.id;
         deviceId = basicInfoData.deviceId;
+        deviceName = basicInfoData.deviceName;
+        sensorName = basicInfoData.sensorName;
         wifiName = basicInfoData.wifiName;
 
         serverIp = basicInfoData.serverIp;
@@ -99,7 +103,7 @@ class GlobalData {
       BasicInfoCompanion(
         deviceId: const Value('ghu-studio-onair1'),
         wifiName: const Value('mdk'),
-        serverIp: const Value('192.168.219.138'),
+        serverIp: const Value('192.168.11.120'),
       ),
     );
     // 등록한 DB를 업데이트
